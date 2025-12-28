@@ -203,7 +203,7 @@ public class MetaDataExtractor {
 							bioregID = e.getXref().getBioregistryIdentifier().replaceAll("chebi:CHEBI:", "chebi:");
 						idMappings = getIDMappingsString(e, pId, p, idmpStack);
 						if(!comment.equals("")) comment = comment.substring(0, comment.length()-5);
-						String output = e.getTextLabel().replace("\n", "") + "\t" + e.getType() + "\t" + ((bioregID != null) ? bioregID : "") + "\t\"" +  comment  + "\"\t" + idMappings + "\n";
+						String output = e.getTextLabel().replace("\n", " ") + "\t" + e.getType() + "\t" + ((bioregID != null) ? bioregID : "") + "\t\"" +  comment  + "\"\t" + idMappings + "\n";
 						if (!writtenStrings.contains(output)) {
 							w.write(output);
 							writtenStrings.add(output);
