@@ -23,9 +23,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bridgedb.DataSource;
 import org.bridgedb.IDMapperException;
@@ -126,10 +130,29 @@ public class MetaDataExtractor {
 		}
 	}
 	
+	private static Map<String,String> getLinks(PathwayModel p) {
+		Map<String,String> links = new HashMap<>();
+		for (Comment annot : p.getPathway().getComments()) {
+			String source = annot.getSource();
+			String text = annot.getCommentText();
+			if ("HomologyConvert".equals(source)) {
+				// let's try to find a WikiPathways ID
+		        Pattern pattern = Pattern.compile("WP\\d*");
+		        Matcher matcher = pattern.matcher(text);
+		        if (matcher.find()) {
+                    String wpid = matcher.group();
+					links.put("homologyConvertedFrom", "wikipathways:" + wpid);
+		        }
+			}
+		}
+		return links;
+	}
+
 	private static void printPathwayInfo(String pId, String revision, List<Author> authors, String date, PathwayModel p) throws IOException {
 		System.out.println("print pathway info");
 		JSONObject jsonObject = new JSONObject();
 		List<String> a = new ArrayList<String>();
+		Map<String,String> links = getLinks(p);
 		
 		for(Author auth : authors) {
 			a.add(auth.getName());
@@ -164,6 +187,8 @@ public class MetaDataExtractor {
 		jsonObject.put("title", p.getPathway().getTitle());
 
 		jsonObject.put("wpid", pId);
+
+		jsonObject.put("links", links);
 
 		File file = new File(folder, pId + "-info.json");
 		FileWriter writer = new FileWriter(file.getAbsoluteFile());
