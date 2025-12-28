@@ -18,6 +18,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.8.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -39,14 +40,39 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+                        <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-enforcer-plugin</artifactId>
+                                <version>3.6.2</version>
+                                <executions>
+                                        <execution>
+                                        <id>enforce-maven</id>
+                                        <goals>
+                                                <goal>enforce</goal>
+                                        </goals>
+                                        <configuration>
+                                                <rules>
+                                                <requireMavenVersion>
+                                                        <version>3.6.3</version>
+                                                </requireMavenVersion>
+                                                <requireJavaVersion>
+                                                        <version>11</version>
+                                                </requireJavaVersion>
+                                                </rules>
+                                        </configuration>
+                                        </execution>
+                                </executions>
+                        </plugin>
+                </plugins>
 	</build>
+
 	<repositories>
-        <repository>
-            <id>central</id>
-            <url>https://central.sonatype.com/</url>
-        </repository>
-    </repositories>
+            <repository>
+                <id>central</id>
+                <url>https://central.sonatype.com/</url>
+            </repository>
+        </repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.json</groupId>
