@@ -175,8 +175,8 @@ public class MetaDataExtractor {
 	private static void printNodeList(String pId, PathwayModel p) throws IOException, ClassNotFoundException, IDMapperException {
 		File file = new File(folder, pId + "-datanodes.tsv");
 		BufferedWriter w = new BufferedWriter(new FileWriter(file));
-		w.write("Label\tType\tIdentifier\tComment\tEnsembl\tNCBI gene\tHGNC\tUniProt\tWikidata\tChEBI\tInChI\tPubChem\tChemSpider\tHMDB\tKEGG\tLipidMaps\n");
-		ArrayList<String> elementTypes = new ArrayList<String>(Arrays.asList("Metabolite", "GeneProduct", "Protein"));
+		w.write("Label\tType\tIdentifier\tComment\tEnsembl\tNCBI gene\tHGNC\tUniProt\tWikidata\tChEBI\tInChI\tPubChem\tChemSpider\tHMDB\tKEGG\tLipidMaps\tWikiPathways\n");
+		ArrayList<String> elementTypes = new ArrayList<String>(Arrays.asList("Metabolite", "GeneProduct", "Protein", "Pathway"));
 		
 		// create idmapper stack using gdb.config file
 		GdbProvider idmp = new GdbProvider();
@@ -218,7 +218,7 @@ public class MetaDataExtractor {
 	private static String getIDMappingsString(DataNode e, String pId, PathwayModel p, IDMapperStack idmpStack) throws ClassNotFoundException, IOException, IDMapperException {
 		// perform ID Mapping for Ensembl, NCBI gene, HGNC, UniProt, Wikidata, ChEBI, InChI
 		//DataSourceTxt.init();
-		ArrayList<String> dataSourceList = new ArrayList<String>(Arrays.asList("En", "L", "H", "S", "Wd", "Ce","Ik", "Cpc", "Cs", "Ch", "Ck", "Lm"));
+		ArrayList<String> dataSourceList = new ArrayList<String>(Arrays.asList("En", "L", "H", "S", "Wd", "Ce","Ik", "Cpc", "Cs", "Ch", "Ck", "Lm", "Wp"));
 		String result = "";		
 		
 		// For each data source in the header, mapID and append the result to the string.
